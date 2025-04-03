@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drake L’s Photography Portfolio</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #0a0a0a;
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+            /* Disable text selection for the entire page */
+            user-select: none; /* Prevents text selection */
+            -webkit-user-select: none; /* Safari */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* IE/Edge */
+        }
+
+        .header {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 50px;
+            padding: 10px 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            min-width: 200px;
+            max-width: 90vw;
+        }
+
+        .portfolio-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 80px 40px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .photo-card {
+            position: relative;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            transition: box-shadow 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            perspective: 1000px;
+            overflow: visible;
+        }
+
+        .photo-card:hover {
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.4);
+        }
+
+        .photo-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.2), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .photo-card:hover::after {
+            opacity: 0.3;
+        }
+
+        .photo-card img {
+            position: relative;
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 20px;
+            transition: transform 0.3s ease;
+            transform-style: preserve-3d;
+            z-index: 2;
+        }
+
+        .fullscreen-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+        }
+
+        .fullscreen-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .blur-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: -1;
+        }
+
+        .fullscreen-image {
+            position: absolute;
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            transition: all 0.5s ease;
+            border-radius: 10px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            z-index: 1;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0); }
+        }
+
+        .photo-card:nth-child(odd) {
+            animation: float 6s infinite ease-in-out;
+        }
+
+        .photo-card:nth-child(even) {
+            animation: float 5s infinite ease-in-out reverse;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+            z-index: 1001;
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">Drake’s Photography Portfolio</div>
+    <div class="portfolio-container">
+        <div class="photo-card">
+            <img src="https://www.webfx.com/wp-content/uploads/2021/10/generic-image-placeholder.png" alt="Photo 1">
+        </div>
+        <div class="photo-card">
+            <img src="https://www.webfx.com/wp-content/uploads/2021/10/generic-image-placeholder.png" alt="Photo 2">
+        </div>
+        <div class="photo-card">
+            <img src="https://www.webfx.com/wp-content/uploads/2021/10/generic-image-placeholder.png" alt="Photo 3">
+        </div>
+        <div class="photo-card">
+            <img src="https://www.webfx.com/wp-content/uploads/2021/10/generic-image-placeholder.png" alt="Photo 4">
+        </div>
+    </div>
+
+    <div class="fullscreen-overlay">
+        <div class="blur-layer"></div>
+        <span class="close-btn">×</span>
+        <img class="fullscreen-image" src="" alt="Fullscreen Photo">
+    </div>
+
+    <script>
+        const photoCards = document.querySelectorAll('.photo-card');
+        const overlay = document.querySelector('.fullscreen-overlay');
+        const blurLayer = document.querySelector('.blur-layer');
+        const fullscreenImage = document.querySelector('.fullscreen-image');
+        const closeBtn = document.querySelector('.close-btn');
+        let originalRect = null;
+        let activeCard = null;
+        let isTransitioning = false;
+
+        photoCards.forEach(card => {
+            const img = card.querySelector('img');
+            
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const mouseX = e.clientX - rect.left;
+                const mouseY = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = (mouseY - centerY) / centerY * 15;
+                const rotateY = (centerX - mouseX) / centerX * 15;
+                
+                img.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                img.style.transform = 'rotateX(0deg) rotateY(0deg) translateZ(0px)';
+            });
+
+            card.addEventListener('click', () => {
+                if (isTransitioning) return;
+                isTransitioning = true;
+
+                const img = card.querySelector('img');
+                const imgSrc = img.src;
+
+                requestAnimationFrame(() => {
+                    fullscreenImage.style.transition = 'none';
+                    fullscreenImage.style.width = '';
+                    fullscreenImage.style.height = '';
+                    fullscreenImage.style.top = '';
+                    fullscreenImage.style.left = '';
+                    fullscreenImage.style.transform = '';
+
+                    originalRect = img.getBoundingClientRect();
+                    activeCard = card;
+
+                    const aspectRatio = originalRect.width / originalRect.height;
+
+                    fullscreenImage.src = imgSrc;
+                    fullscreenImage.style.width = `${originalRect.width}px`;
+                    fullscreenImage.style.height = `${originalRect.height}px`;
+                    fullscreenImage.style.top = `${originalRect.top}px`;
+                    fullscreenImage.style.left = `${originalRect.left}px`;
+                    fullscreenImage.style.transition = 'all 0.5s ease';
+
+                    overlay.classList.add('active');
+                    blurLayer.style.opacity = '1';
+
+                    requestAnimationFrame(() => {
+                        const viewportWidth = window.innerWidth;
+                        const viewportHeight = window.innerHeight;
+                        let targetWidth = Math.min(viewportWidth * 0.9, originalRect.width * 2);
+                        let targetHeight = targetWidth / aspectRatio;
+
+                        if (targetHeight > viewportHeight * 0.9) {
+                            targetHeight = viewportHeight * 0.9;
+                            targetWidth = targetHeight * aspectRatio;
+                        }
+
+                        const targetTop = (viewportHeight - targetHeight) / 2;
+                        const targetLeft = (viewportWidth - targetWidth) / 2;
+
+                        fullscreenImage.style.width = `${targetWidth}px`;
+                        fullscreenImage.style.height = `${targetHeight}px`;
+                        fullscreenImage.style.top = `${targetTop}px`;
+                        fullscreenImage.style.left = `${targetLeft}px`;
+
+                        setTimeout(() => { isTransitioning = false; }, 500);
+                    });
+                });
+            });
+        });
+
+        function closeOverlay() {
+            if (isTransitioning || !overlay.classList.contains('active')) return;
+            isTransitioning = true;
+
+            if (originalRect && activeCard) {
+                originalRect = activeCard.querySelector('img').getBoundingClientRect();
+
+                fullscreenImage.style.width = `${originalRect.width}px`;
+                fullscreenImage.style.height = `${originalRect.height}px`;
+                fullscreenImage.style.top = `${originalRect.top}px`;
+                fullscreenImage.style.left = `${originalRect.left}px`;
+                blurLayer.style.opacity = '0';
+
+                fullscreenImage.addEventListener('transitionend', function handler(e) {
+                    overlay.classList.remove('active');
+                    fullscreenImage.removeEventListener('transitionend', handler);
+                    isTransitioning = false;
+                }, { once: true });
+
+                setTimeout(() => {
+                    if (overlay.classList.contains('active')) {
+                        overlay.classList.remove('active');
+                        isTransitioning = false;
+                    }
+                }, 600);
+            } else {
+                overlay.classList.remove('active');
+                blurLayer.style.opacity = '0';
+                isTransitioning = false;
+            }
+        }
+
+        closeBtn.addEventListener('click', closeOverlay);
+
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) {
+                closeOverlay();
+            }
+        });
+
+        overlay.addEventListener('transitionend', (e) => {
+            if (!overlay.classList.contains('active') && e.propertyName === 'opacity') {
+                fullscreenImage.style.width = '';
+                fullscreenImage.style.height = '';
+                fullscreenImage.style.top = '';
+                fullscreenImage.style.left = '';
+                fullscreenImage.style.transform = '';
+                blurLayer.style.opacity = '0';
+                originalRect = null;
+                activeCard = null;
+            }
+        });
+
+        // Disable right-click (context menu) for the entire page
+        document.addEventListener('contextmenu', (e) => {
+            e.preventDefault(); // Prevents the context menu from appearing
+            // To allow right-click on specific elements, add: if (!e.target.closest('.some-class')) { e.preventDefault(); }
+        });
+    </script>
+</body>
+</html>
