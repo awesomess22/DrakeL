@@ -5,18 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Drake L’s Photography Portfolio</title>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: #0a0a0a;
-            font-family: 'Arial', sans-serif;
-            overflow-x: hidden;
-            /* Disable text selection for the entire page */
-            user-select: none; /* Prevents text selection */
-            -webkit-user-select: none; /* Safari */
-            -moz-user-select: none; /* Firefox */
-            -ms-user-select: none; /* IE/Edge */
-        }
+        @keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+body {
+  height: 100vh;
+  margin: 0;
+  background: linear-gradient(270deg, #ff5733, #33ff57, #3357ff);
+  background-size: 600% 600%;
+  animation: gradientAnimation 10s ease infinite;
+}
 
         .header {
             position: fixed;
